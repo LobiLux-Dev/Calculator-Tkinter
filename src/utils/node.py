@@ -4,9 +4,9 @@ T = TypeVar('T')
 
 
 class Node(Generic[T]):
-  def __init__(self, data: T, head: Optional["Node[T]"]) -> None:
+  def __init__(self, data: T, next: Optional["Node[T]"]) -> None:
     self.data = data
-    self.next = head
+    self.next = next
 
 
   def __str__(self) -> str:
