@@ -62,7 +62,7 @@ class CalculatorModel:
       stack.push(
         functions[value](stack.pop()) if value in functions else
         operators[value](stack.pop(), stack.pop()) if value in operators else
-        (value)
+        float(value)
       )
     
     return int(value) if (value := stack.pop()).is_integer() else value.__round__(2)
