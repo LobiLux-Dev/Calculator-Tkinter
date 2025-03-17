@@ -14,7 +14,24 @@ class CalculatorView(Tk):
     self.inputsFrame = InputsFrame(self)
     self.inputsFrame.pack()
     
-    ButtonsFrame(self).pack()
+    ButtonsFrame(self, self.click).pack()
+
+  def click(self, value: str) -> None:
+      model = CalculatorModel()
+      if value == "=": 
+          expression = self.inputsFrame.get_input("infix")
+
+          posfix = model.infix2posfix(expression)
+
+          value = model.posfix2value(posfix)
+
+          self.inputsFrame.update_input("value", value)
+          self.inputsFrame.update_input("posfix", posfix)
+            
+      elif value == "AC":
+          self.inputsFrame.update_input("infix", "")
+      else:
+        self.inputsFrame.update_input("infix", self.inputsFrame.get_input("infix") + value)
 
 
 class InputsFrame(Frame):
@@ -43,28 +60,11 @@ class InputsFrame(Frame):
 
   def get_input(self, input_name: str) -> str:
     return self.vars[input_name].get()
-  
-  
-  
-  def button_click(self,value):
-      self.infi = CalculatorModel()
-      if value == "=": 
-          expression = self.get_input("infix")
-          posf = self.infi.infix2posfix(expression)
-          result = self.infi.posfix2value(expression)
-          self.update_input("value", str(result))
-          self.update_input("posfix", str(posf))
-            
-      elif value == "AC":
-          self.update_input(input_name="infix", value="")
-      else:
-        self.update_input(input_name="infix", value=self.get_input(input_name="infix") + value)
+
 
 class ButtonsFrame(Frame):
-  def __init__(self, master) -> None:
+  def __init__(self, master, clickFn) -> None:
     super().__init__(master)
-    
-    calcu= InputsFrame(self)
 
 
     buttons: list[tuple[str, str, str, str, str]] = [
@@ -79,4 +79,4 @@ class ButtonsFrame(Frame):
 
     for i, row in enumerate(buttons):
       for j, value in enumerate(row):
-        Button(self, text=value,  command=lambda v=value: calcu.button_click(v)).grid(row=i, column=j, ipady=8)  
+        Button(self, text=value,  command=lambda val=value: clickFn(val)).grid(row=i, column=j, ipady=8)  
