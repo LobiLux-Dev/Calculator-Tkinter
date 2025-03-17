@@ -1,185 +1,166 @@
-from tkinter import *
+from tkinter import StringVar, Tk
 from tkinter.ttk import *
 
-import tkinter as tk
-from tkinter import StringVar
-
-
 class CalculatorView(Tk):
-  def __init__(self):
+  def __init__(self, controller):
     super().__init__()
+    self.controller = controller
 
     self.title("Calculadora")
-    self.geometry("455x550")
 
-    #expression = StringVar()
-    #self.expressionEntry = Entry(self, textvariable=expression)
-    #self.expressionEntry.grid()
+    self.inputsFrame = InputsFrame(self, controller)
+    self.inputsFrame.pack()
     
-    buttonsContainer = Frame(self, padding= 8)
-    buttonsContainer.grid()
-    '''
-    widgets = [
-      ( 'log' , 'sin' , 'cos' , 'tan' , 'ln'  ),
-      ( 'alog', 'asin', 'acos', 'atan', 'aln' ),
-      ( '7'   , '8'   , '9'   , '^'   , 'AC'  ),
-      ( '4'   , '5'   , '6'   , '*'   , '/'   ),
-      ( '1'   , '2'   , '3'   , '+'   , '-'   ),
-      ( '0'   , '.'   , '('   , ')'   , '='   ),
-    ]
+    ButtonsFrame(self, controller).pack()
 
-    for i, row in enumerate(widgets):
-      for j, value in enumerate(row):
-        Button(buttonsContainer, text=value, width=5).grid(row=i, column=j)
-        '''
+    # self.configure(padx=8)
 
+    # self.model = CalculatorModel()
 
-        
-      # funciones de las operaciones de cada boton
-    def click(num):
-        global operador
-        operador=operador+str(num)
-        expression.set(operador)
-
-    def clear():
-        global operador
-        operador=""
-        expression.set(operador)
-
-    def operacion():
-        global operador
-        try:
-            opera=eval(operador)
-        except:
-            clear()
-            opera=("ERROR")
-        expression.set(opera)
-        
-    expression= StringVar()
-    self.expressionEntry = Entry(self, textvariable=expression)
-    campo1 = StringVar()
-    campo2 = StringVar()
-    campo3 = StringVar()
-    operador=""
-
-
-
-
-    widgets = [
-      ( "√"  , "EXP"  , "log"   , "ln" , "sin"   ),
-      ( "cos"   , "tan"   , "asin"   , "acos"   , "atan"   ),
-      ( "sec"   , "csc"   , "cot"   , "("   , ")"   ),
-      ( "7"   , "8"   , "9"   , "AC"   , "DEL"   ),
-      ( "4"   , "5"   , "6"   , "x"   , "/"   ),
-      ( "1"   , "2"   , "3"   , "+"   , "-"   ),
-      ( "0"   , '.'   , 'π'   , "%"   , "="   ),
-      
-    ]
+    # infixStr = tk.StringVar()
+    # posfixStr = tk.StringVar()
+    # valueStr = tk.StringVar()
     
-    
-    comando: dict[str] = {
-          "√": "√",
-          "EXP": "**",
-          "log": "log10",
-          "ln": "log",
-          "sin":"sin",
-          "cos": "cos",
-          "tan": "tan",
-          "asin": "asin",
-          "acos": "acos",
-          "atan": "atan",
-          "sec": "1/cos",
-          "csc": "1/sin",
-          "cot": "1/tan",
-          "7": 7,
-          "8": 8,
-          "9": 9,
-          "AC": clear(),
-          "DEL": "remove",
-          "4": 4,
-          "5": 5,
-          "6": 6,
-          "x": "*",
-          "/": "/",
-          "1": 1,
-          "2": 2,
-          "3": 3,
-          "+": "+",
-          "-": "-",
-          "0": 0,
-          ".": ".",
-          "π": "π",
-          "%": "%",
-          "=": operacion(),
-        }
+    # infixInput = tk.Entry(self, font=("Arial", 14), textvariable=infixStr, width=30, bd=5,insertwidth=3, bg="powder blue",justify="left")
+    # infixInput.grid(row=0, column=0)
+    # Label(self, text=":Infix", font=("Arial", 14)).grid(row=0, column=1)
 
-    
-    self.rowconfigure(0, weight=1)
-    self.columnconfigure(0, weight=1)
-    
-    for i, row in enumerate(widgets):
-      for j, value in enumerate(row):
-        Button(buttonsContainer, text=value, command=lambda: click(comando.get(float(expression))), width=8).grid(row=i, column=j, ipadx=15, ipady=8)
+    # buttonsContainer = Frame(self, padding=(0, 10))
+    # buttonsContainer.grid(columnspan=2)
 
-    '''
-    botones = {
-      ("√", "√", 1, 85),
-      ("EXP", "**", 90, 85),
-      ("log", "log10", 179, 85),
-      ("ln", "log", 268, 85),
-      ("sin", "sin", 357, 85),
-      ("cos", "cos", 1, 143),
-      ("tan", "tan", 90, 143),
-      ("asin", "asin", 179, 143),
-      ("acos", "acos", 268, 143),
-      ("atan", "atan", 357, 143),
-      ("sec", "1/cos", 1, 201),
-      ("csc", "1/sin", 90, 201),
-      ("cot", "1/tan", 179, 201),
-      ("7", 7, 1, 259),
-      ("8", 8, 90, 259),
-      ("9", 9, 179, 259),
-      ("AC", clear, 268, 259), #modificar pq es funcion
-      ("DEL", "remove", 357, 259),
-      ("4", 4, 1, 317),
-      ("5", 5, 90, 317),
-      ("6", 6, 179, 317),
-      ("X", "*", 268, 317),
-      ("/", "/", 357, 317),
-      ("1", 1, 1, 375),
-      ("2", 2, 90, 375),
-      ("3", 3, 179, 375),
-      ("+", "+", 268, 375),
-      ("-", "-", 357, 375),
-      ("0", 0, 1, 433),
-      (".", ".", 90, 433),
-      ("π", "π", 179, 433),
-      ("%", "%", 268, 433),
-      ("=", "=", 357, 433)
+
+    # def click(value: str):
+    #   posfixStr.set("")
+    #   valueStr.set("")
+
+    #   match value:
+    #     case "AC":
+    #       infixStr.set("")
+    #     case "DEL":
+    #       if (val := infixStr.get().split()):
+    #         val.pop()
+
+    #         if val and val[-1].isalpha():
+    #           val.pop()
+
+    #         infixStr.set(" ".join(val))
+    #     case "=":
+    #       print(f"{infixStr.get()}asdasd")
+    #       posfix = self.model.infix2posfix(infixStr.get())
+
+
+    #       valueStr.set(self.model.posfix2value(posfix))
+    #     case _:
+    #       if not (value.isnumeric() or value == "." or value == ")") and (val := infixStr.get().split()) and val[-1].isnumeric():
+    #         infixStr.set(infixStr.get() + " " + value)
+    #       else:
+    #         infixStr.set(infixStr.get() + value)
+
+
+    # buttons: list[tuple[str, str, str, str, str]] = [
+    #   ( "√"  , "EXP", "log" , "ln"  , "sin"  ),
+    #   ( "cos", "tan", "asin", "acos", "atan" ),
+    #   ( "sec", "csc", "cot" , "("   , ")"    ),
+    #   ( "7"  , "8"  , "9"   , "AC"  , "DEL"  ),
+    #   ( "4"  , "5"  , "6"   , "x"   , "/"    ),
+    #   ( "1"  , "2"  , "3"   , "+"   , "-"    ),
+    #   ( "0"  , '.'  , 'π'   , "%"   , "="    ),
+    # ]
+
+    # values: dict[str, str] = {
+    #   "√": "sqrt ( ",
+    #   "EXP": "alog ( ",
+    #   "log": "log ( ",
+    #   "ln": "ln ( ",
+    #   "sin": "sin ( ",
+    #   "cos": "cos ( ",
+    #   "tan": "tan ( ",
+    #   "asin": "asin ( ",
+    #   "acos": "acos ( ",
+    #   "atan": "atan ( ",
+    #   "sec": "sec ( ",
+    #   "csc": "csc ( ",
+    #   "cot": "cot ( ",
+    #   "(": "( ",
+    #   ")": ") ",
+    #   "7": "7",
+    #   "8": "8",
+    #   "9": "9",
+    #   "AC": "AC",
+    #   "DEL": "DEL",
+    #   "4": "4",
+    #   "5": "5",
+    #   "6": "6",
+    #   "x": "* ",
+    #   "/": "/ ",
+    #   "1": "1",
+    #   "2": "2",
+    #   "3": "3",
+    #   "+": "+ ",
+    #   "-": "- ",
+    #   "0": "0",
+    #   '.': ".",
+    #   'π': "π",
+    #   "%": "%",
+    #   "=": "=",
+    # }
+    
+    # for i, row in enumerate(buttons):
+    #   for j, value in enumerate(row):
+    #     Button(buttonsContainer, text=value, command=lambda val=value: click(values[val]), width=8).grid(row=i, column=j, ipadx=15, ipady=8)
+    
+    # entrada2 = tk.Entry(self, font=("Arial", 14), textvariable=posfixStr, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left")
+    # entrada2.grid()
+    # Label(self, text=":Postfix", font=("Arial", 14)).grid(row=2, column=1)
+    # entrada3 = tk.Entry(self, font=("Arial", 14), textvariable=valueStr, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left")
+    # entrada3.grid()
+    # Label(self, text=":Resultado", font=("Arial", 14)).grid(row=3, column=1)
+
+
+class InputsFrame(Frame):
+  def __init__(self, master, controller):
+    super().__init__(master)
+    self.controller = controller
+
+    self.vars: dict[str, StringVar] = {
+      'infix': StringVar(),
+      'posfix': StringVar(),
+      'value': StringVar()
     }
 
-    def new_button(texto, comando, x, y):
-        return tk.Button(self, text=texto, width=anch, height=larg, command=lambda: click(comando)).place(x=x, y=y)
-
-    for texto, comando, x, y in botones:
-        new_button(texto, comando, x, y)'''
-        
-
-    entrada1 = tk.Entry(self, font=("Arial", 14), textvariable=campo1, width=30, bd=5,insertwidth=3, bg="powder blue",justify="left")
-    entrada1.place(x=5, y=4)
-    efix = tk.Label(self, text=":Infix", font=("Arial", 14))
-    efix.place(x=350, y=5)
-    entrada2 = tk.Entry(self, font=("Arial", 14), textvariable=campo2, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left")
-    entrada2.place(x=5, y=45)
-    epos = tk.Label(self, text=":Postfix", font=("Arial", 14))
-    epos.place(x=350, y=45)
-    entrada3 = tk.Entry(self, font=("Arial", 14), textvariable=campo3, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left")
-    entrada3.place(x=5, y=500)
-    r = tk.Label(self, text=":Resultado", font=("Arial", 14))
-    r.place(x=346, y=500)
-
-    self.mainloop()
+    self._create_input_row("Infix: ", self.vars['infix'], 0)
+    self._create_input_row("Postfix: ", self.vars['posfix'], 1)
+    self._create_input_row("Resultado: ", self.vars['value'], 2)
 
 
+  def _create_input_row(self, label_text: str, text_var: StringVar, row: int):
+    Label(self, text=label_text, font=("Arial", 14)).grid(row=row, column=0, pady=2)
+    Entry(self, font=("Arial", 14), textvariable=text_var).grid(row=row, column=1, pady=2)
+
+  
+  def update_input(self, input_name: str, value: str):
+    self.vars[input_name].set(value)
 
 
+  def get_input(self, input_name: str) -> str:
+    return self.vars[input_name].get()
+
+
+class ButtonsFrame(Frame):
+  def __init__(self, master, controller):
+    super().__init__(master)
+    self.controller = controller
+
+    buttons: list[tuple[str, str, str, str, str]] = [
+      ( "√"  , "EXP", "log" , "ln"  , "sin"  ),
+      ( "cos", "tan", "asin", "acos", "atan" ),
+      ( "sec", "csc", "cot" , "("   , ")"    ),
+      ( "7"  , "8"  , "9"   , "AC"  , "DEL"  ),
+      ( "4"  , "5"  , "6"   , "x"   , "/"    ),
+      ( "1"  , "2"  , "3"   , "+"   , "-"    ),
+      ( "0"  , '.'  , 'π'   , "%"   , "="    ),
+    ]
+
+    for i, row in enumerate(buttons):
+      for j, value in enumerate(row):
+        Button(self, text=value, command=lambda val=value: self.controller.click(val)).grid(row=i, column=j, ipady=8)  
