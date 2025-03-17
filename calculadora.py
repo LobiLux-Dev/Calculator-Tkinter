@@ -3,7 +3,7 @@ from tkinter import StringVar
 
 ventana=tk.Tk()
 ventana.title("Calculadora :3")
-ventana.geometry("435x550")
+ventana.geometry("445x550")
 
 #tamaño de los botones
 anch = 8

@@ -2,8 +2,10 @@ from view.calculator_view import CalculatorView
 from models.calculator_model import CalculatorModel
 
 if __name__ == '__main__':
-  # view = CalculatorView()
-  # view.mainloop()
+  view = CalculatorView()
+  view.mainloop()
+
+'''
   model = CalculatorModel()
 
   expressions = [
@@ -25,4 +27,4 @@ if __name__ == '__main__':
 
     value = model.posfix2value(posfix)
     print(f"Value: {value}")
-    print()
+    print()'''

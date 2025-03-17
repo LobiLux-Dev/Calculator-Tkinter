@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
- 
+
 import tkinter as tk
 from tkinter import StringVar
 
@@ -10,15 +10,15 @@ class CalculatorView(Tk):
     super().__init__()
 
     self.title("Calculadora")
+    self.geometry("455x550")
 
-
-    expression = StringVar()
-    self.expressionEntry = Entry(self, textvariable=expression)
-    self.expressionEntry.grid()
-
-    buttonsContainer = Frame(self, padding=5)
+    #expression = StringVar()
+    #self.expressionEntry = Entry(self, textvariable=expression)
+    #self.expressionEntry.grid()
+    
+    buttonsContainer = Frame(self, padding= 8)
     buttonsContainer.grid()
-
+    '''
     widgets = [
       ( 'log' , 'sin' , 'cos' , 'tan' , 'ln'  ),
       ( 'alog', 'asin', 'acos', 'atan', 'aln' ),
@@ -31,32 +31,20 @@ class CalculatorView(Tk):
     for i, row in enumerate(widgets):
       for j, value in enumerate(row):
         Button(buttonsContainer, text=value, width=5).grid(row=i, column=j)
-        
-      
-    ventana=tk.Tk()
-    ventana.title("Calculadora :3")
-    ventana.geometry("445x550")
+        '''
 
-    #tamaño de los botones
-    anch = 8
-    larg = 3
 
-    #botones 
-    def click(num):
-        global operador
-        operador= operador+ str(num)
-        a.set(operador)
         
       # funciones de las operaciones de cada boton
     def click(num):
         global operador
         operador=operador+str(num)
-        a.set(operador)
+        expression.set(operador)
 
     def clear():
         global operador
         operador=""
-        a.set(operador)
+        expression.set(operador)
 
     def operacion():
         global operador
@@ -65,15 +53,75 @@ class CalculatorView(Tk):
         except:
             clear()
             opera=("ERROR")
-        a.set(opera)
+        expression.set(opera)
         
-    a= StringVar()
+    expression= StringVar()
+    self.expressionEntry = Entry(self, textvariable=expression)
     campo1 = StringVar()
     campo2 = StringVar()
     campo3 = StringVar()
     operador=""
 
 
+
+
+    widgets = [
+      ( "√"  , "EXP"  , "log"   , "ln" , "sin"   ),
+      ( "cos"   , "tan"   , "asin"   , "acos"   , "atan"   ),
+      ( "sec"   , "csc"   , "cot"   , "("   , ")"   ),
+      ( "7"   , "8"   , "9"   , "AC"   , "DEL"   ),
+      ( "4"   , "5"   , "6"   , "x"   , "/"   ),
+      ( "1"   , "2"   , "3"   , "+"   , "-"   ),
+      ( "0"   , '.'   , 'π'   , "%"   , "="   ),
+      
+    ]
+    
+    
+    comando: dict[str] = {
+          "√": "√",
+          "EXP": "**",
+          "log": "log10",
+          "ln": "log",
+          "sin":"sin",
+          "cos": "cos",
+          "tan": "tan",
+          "asin": "asin",
+          "acos": "acos",
+          "atan": "atan",
+          "sec": "1/cos",
+          "csc": "1/sin",
+          "cot": "1/tan",
+          "7": 7,
+          "8": 8,
+          "9": 9,
+          "AC": clear(),
+          "DEL": "remove",
+          "4": 4,
+          "5": 5,
+          "6": 6,
+          "x": "*",
+          "/": "/",
+          "1": 1,
+          "2": 2,
+          "3": 3,
+          "+": "+",
+          "-": "-",
+          "0": 0,
+          ".": ".",
+          "π": "π",
+          "%": "%",
+          "=": operacion(),
+        }
+
+    
+    self.rowconfigure(0, weight=1)
+    self.columnconfigure(0, weight=1)
+    
+    for i, row in enumerate(widgets):
+      for j, value in enumerate(row):
+        Button(buttonsContainer, text=value, command=lambda: click(comando.get(float(expression))), width=8).grid(row=i, column=j, ipadx=15, ipady=8)
+
+    '''
     botones = {
       ("√", "√", 1, 85),
       ("EXP", "**", 90, 85),
@@ -111,28 +159,26 @@ class CalculatorView(Tk):
     }
 
     def new_button(texto, comando, x, y):
-        return tk.Button(ventana, text=texto, width=anch, height=larg, command=lambda: click(comando)).place(x=x, y=y)
+        return tk.Button(self, text=texto, width=anch, height=larg, command=lambda: click(comando)).place(x=x, y=y)
 
     for texto, comando, x, y in botones:
-        new_button(texto, comando, x, y)
+        new_button(texto, comando, x, y)'''
+        
 
-    entrada1 = tk.Entry(ventana, font=("Arial", 14), textvariable=campo1, width=30, bd=5,insertwidth=3, bg="powder blue",justify="left")
+    entrada1 = tk.Entry(self, font=("Arial", 14), textvariable=campo1, width=30, bd=5,insertwidth=3, bg="powder blue",justify="left")
     entrada1.place(x=5, y=4)
-    efix = tk.Label(ventana, text=":Infix", font=("Arial", 14))
+    efix = tk.Label(self, text=":Infix", font=("Arial", 14))
     efix.place(x=350, y=5)
-    entrada2 = tk.Entry(ventana, font=("Arial", 14), textvariable=campo2, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left")
+    entrada2 = tk.Entry(self, font=("Arial", 14), textvariable=campo2, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left")
     entrada2.place(x=5, y=45)
-    epos = tk.Label(ventana, text=":Postfix", font=("Arial", 14))
+    epos = tk.Label(self, text=":Postfix", font=("Arial", 14))
     epos.place(x=350, y=45)
-    entrada3 = tk.Entry(ventana, font=("Arial", 14), textvariable=campo3, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left")
+    entrada3 = tk.Entry(self, font=("Arial", 14), textvariable=campo3, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left")
     entrada3.place(x=5, y=500)
-    r = tk.Label(ventana, text=":Resultado", font=("Arial", 14))
+    r = tk.Label(self, text=":Resultado", font=("Arial", 14))
     r.place(x=346, y=500)
 
-
-
-
-    ventana.mainloop()
+    self.mainloop()
 
 
 
