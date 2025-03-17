@@ -65,7 +65,7 @@ class CalculatorModel:
       stack.push(
         self.functions[value](stack.pop()) if value in self.functions else
         self.operators[value](stack.pop(), stack.pop()) if value in self.operators else
-        float(value)
+        float(math.pi if value == 'π' else value)
       )
     
     return int(value) if (value := stack.pop()).is_integer() else value.__round__(2)

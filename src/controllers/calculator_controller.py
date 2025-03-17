@@ -8,28 +8,39 @@ class CalculatorController:
 
   
   def click(self, value: str):
-    self.view.inputsFrame.update_input(input_name="posfix", value="")
-    self.view.inputsFrame.update_input(input_name="value", value="")
+    set = self.view.inputsFrame.update_input
+    get = self.view.inputsFrame.get_input
+
+    set(input_name="posfix", value="")
+    set(input_name="value", value="")
   
 
     if value.isnumeric() or value in ['.', 'π', '%']:
-      current_infix = self.view.inputsFrame.get_input("infix")
-      self.view.inputsFrame.update_input(input_name="infix", value=current_infix + value)
+      current_infix = get("infix")
+      set(input_name="infix", value=current_infix + value)
     elif value == "AC":
-      self.view.inputsFrame.update_input(input_name="infix", value="")
-    elif value.isalpha():
-      current_infix = self.view.inputsFrame.get_input("infix")
-      self.view.inputsFrame.update_input(input_name="infix", value=current_infix + ' ' + value + ' ( ')
+      set(input_name="infix", value="")
+    elif value == "DEL":
+      if (val := get('infix').split()):
+        val.pop()
+
+        if val and val[-1].isalpha():
+          val.pop()
+
+        set(input_name='infix', value=" ".join(val) + '')
+    elif value.isalpha() and not value in ['x']:
+      current_infix = get("infix")
+      set(input_name="infix", value=current_infix + ' ' + value + ' ( ')
     elif value == "=":
-      current_infix = self.view.inputsFrame.get_input("infix")
+      current_infix = get("infix")
 
       posfix = self.model.infix2posfix(current_infix)
-      self.view.inputsFrame.update_input(input_name="posfix", value=posfix)
+      set(input_name="posfix", value=posfix)
       value = self.model.posfix2value(posfix)
-      self.view.inputsFrame.update_input(input_name="value", value=value)
+      set(input_name="value", value=value)
     else:
-      current_infix = self.view.inputsFrame.get_input("infix")
-      self.view.inputsFrame.update_input(input_name="infix", value=current_infix + ' ' + value + ' ')
+      current_infix = get("infix")
+      set(input_name="infix", value=current_infix + ' ' + value + ' ')
 
 
   def run(self):

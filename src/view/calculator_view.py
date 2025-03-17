@@ -48,13 +48,13 @@ class ButtonsFrame(Frame):
     self.controller = controller
 
     buttons: list[tuple[str, str, str, str, str]] = [
-      ( "√"  , "EXP", "log" , "ln"  , "sin"  ),
-      ( "cos", "tan", "asin", "acos", "atan" ),
-      ( "sec", "csc", "cot" , "("   , ")"    ),
-      ( "7"  , "8"  , "9"   , "AC"  , "DEL"  ),
-      ( "4"  , "5"  , "6"   , "x"   , "/"    ),
-      ( "1"  , "2"  , "3"   , "+"   , "-"    ),
-      ( "0"  , '.'  , 'π'   , "%"   , "="    ),
+      ( "sin" , "cos" , "tan"  , "log" , "ln"   ),
+      ( "asin", "acos", "atan" , "EXP" , "10ˣ"  ),
+      ( "sec" , "csc" , "cot"  , "("   , ")"    ),
+      ( "7"   , "8"   , "9"    , "AC"  , "DEL"  ),
+      ( "4"   , "5"   , "6"    , "√"   , "^"    ),
+      ( "1"   , "2"   , "3"    , "x"   , "/"    ),
+      ( "0"   , '.'   , "="    , "+"   , "-"    ),
     ]
 
     for i, row in enumerate(buttons):
