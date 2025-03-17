@@ -1,7 +1,7 @@
 from tkinter import StringVar, Tk
 from tkinter.ttk import *
 
-from models.calculator_model import *
+from models.calculator_model import CalculatorModel
 import tkinter as tk
 
 
@@ -43,11 +43,29 @@ class InputsFrame(Frame):
 
   def get_input(self, input_name: str) -> str:
     return self.vars[input_name].get()
-
+  
+  
+  
+  def button_click(self,value):
+      self.infi = CalculatorModel()
+      if value == "=": 
+          expression = self.get_input("infix")
+          posf = self.infi.infix2posfix(expression)
+          result = self.infi.posfix2value(expression)
+          self.update_input("value", str(result))
+          self.update_input("posfix", str(posf))
+            
+      elif value == "AC":
+          self.update_input(input_name="infix", value="")
+      else:
+        self.update_input(input_name="infix", value=self.get_input(input_name="infix") + value)
 
 class ButtonsFrame(Frame):
   def __init__(self, master) -> None:
     super().__init__(master)
+    
+    calcu= InputsFrame(self)
+
 
     buttons: list[tuple[str, str, str, str, str]] = [
       ( "√"  , "EXP", "log" , "ln"  , "sin"  ),
@@ -61,4 +79,4 @@ class ButtonsFrame(Frame):
 
     for i, row in enumerate(buttons):
       for j, value in enumerate(row):
-        Button(self, text=value).grid(row=i, column=j, ipady=8)  
+        Button(self, text=value,  command=lambda v=value: calcu.button_click(v)).grid(row=i, column=j, ipady=8)  
