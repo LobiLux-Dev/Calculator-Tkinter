@@ -31,7 +31,7 @@ class CalculatorView(Tk):
       elif value == "AC":
           self.inputsFrame.update_input("infix", "")
       else:
-        self.inputsFrame.update_input("infix", self.inputsFrame.get_input("infix") + value)
+        self.inputsFrame.update_input("infix", self.inputsFrame.get_input("infix") + value + " ")
 
 
 class InputsFrame(Frame):
