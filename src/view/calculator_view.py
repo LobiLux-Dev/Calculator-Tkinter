@@ -30,6 +30,9 @@ class CalculatorView(Tk):
             
       elif value == "AC":
           self.inputsFrame.update_input("infix", "")
+      elif value ==  "DEL":
+          last = self.inputsFrame.get_input("infix", value[-1])
+          self.inputsFrame.update_input("infix", last )
       else:
         self.inputsFrame.update_input("infix", self.inputsFrame.get_input("infix") + value + " ")
 

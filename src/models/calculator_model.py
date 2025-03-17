@@ -22,7 +22,7 @@ class CalculatorModel:
     self.operators: dict[str, Callable[[float, float], float]] = {
       '+': lambda b, a: a+b,
       '-': lambda b, a: a-b,
-      '*': lambda b, a: a*b,
+      'x': lambda b, a: a*b,
       '/': lambda b, a: a/b,
       '^': lambda b, a: a**b
     }
