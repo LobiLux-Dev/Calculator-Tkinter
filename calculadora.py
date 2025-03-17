@@ -50,7 +50,7 @@ botonlog = tk.Button(ventana, text="log", width=anch, height=larg, command=lambd
 botonlog.place(x=179, y=85)
 botonln = tk.Button(ventana, text="ln", width=anch, height=larg, command=lambda: click("log("))
 botonln.place(x=268, y=85)
-botonsin = tk.Button(ventana, text="sin", width=anch, height=larg, command=lambda: click("sin("))
+botonsin = tk.Button(ventana, text="sin", width=anch, height=larg, command=lambda: click("sin(") )
 botonsin.place(x=357, y=85)
 
 botoncos = tk.Button(ventana, text="cos", width=anch, height=larg, command=lambda: click("cos("))

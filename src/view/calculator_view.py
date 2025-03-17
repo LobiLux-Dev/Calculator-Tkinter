@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
-
+from models.calculator_model import *
 import tkinter as tk
 from tkinter import StringVar
 
@@ -35,25 +35,16 @@ class CalculatorView(Tk):
 
 
         
-      # funciones de las operaciones de cada boton
-    def click(num):
-        global operador
-        operador=operador+str(num)
-        expression.set(operador)
+    '''     # conexiones
+        def click(num):
+            global operador
+            operador=operador+str(num)
+            expression.set(operador)
 
-    def clear():
-        global operador
-        operador=""
-        expression.set(operador)
-
-    def operacion():
-        global operador
-        try:
-            opera=eval(operador)
-        except:
-            clear()
-            opera=("ERROR")
-        expression.set(opera)
+        def clear():
+            global operador
+            operador=""
+            expression.set(operador)'''
         
     expression= StringVar()
     self.expressionEntry = Entry(self, textvariable=expression)
@@ -78,38 +69,38 @@ class CalculatorView(Tk):
     
     
     comando: dict[str] = {
-          "√": "√",
-          "EXP": "**",
-          "log": "log10",
-          "ln": "log",
-          "sin":"sin",
-          "cos": "cos",
-          "tan": "tan",
-          "asin": "asin",
-          "acos": "acos",
-          "atan": "atan",
-          "sec": "1/cos",
-          "csc": "1/sin",
-          "cot": "1/tan",
-          "7": 7,
-          "8": 8,
-          "9": 9,
+          "√": "√ ",
+          "EXP": "** ",
+          "log": "log10( ",
+          "ln": "log( ",
+          "sin":"sin( ",
+          "cos": "cos( ",
+          "tan": "tan( ",
+          "asin": "asin( ",
+          "acos": "acos( ",
+          "atan": "atan( ",
+          "sec": "1/cos( ",
+          "csc": "1/sin( ",
+          "cot": "1/tan( ",
+          "7": 7 ,
+          "8": 8 ,
+          "9": 9 ,
           "AC": clear(),
           "DEL": "remove",
-          "4": 4,
-          "5": 5,
-          "6": 6,
-          "x": "*",
-          "/": "/",
-          "1": 1,
-          "2": 2,
-          "3": 3,
-          "+": "+",
-          "-": "-",
-          "0": 0,
-          ".": ".",
-          "π": "π",
-          "%": "%",
+          "4": 4 ,
+          "5": 5 ,
+          "6": 6 ,
+          "x": "* ",
+          "/": "/ ",
+          "1": 1 ,
+          "2": 2 ,
+          "3": 3 ,
+          "+": "+ ",
+          "-": "- ",
+          "0": 0 ,
+          ".": ". ",
+          "π": "π ",
+          "%": "% ",
           "=": operacion(),
         }
 
@@ -119,7 +110,8 @@ class CalculatorView(Tk):
     
     for i, row in enumerate(widgets):
       for j, value in enumerate(row):
-        Button(buttonsContainer, text=value, command=lambda: click(comando.get(float(expression))), width=8).grid(row=i, column=j, ipadx=15, ipady=8)
+        Button(buttonsContainer, text=value,comand=lambda val=value:self.click(val), width=8).grid(row=i, column=j, ipadx=15, ipady=8)
+        
 
     '''
     botones = {
@@ -165,6 +157,29 @@ class CalculatorView(Tk):
         new_button(texto, comando, x, y)'''
         
 
+    #conexiones
+      
+    def pos():
+      campo2.set(CalculatorModel.infix2posfix)
+      
+    def valuefin():
+      campo3.set(CalculatorModel.posfix2value)
+    
+    def operacion():
+        campo1.set(expression)
+        
+        infi = float(expression.get()) 
+        campo2.set(CalculatorModel.infix2posfix(infi))
+        campo3.set(CalculatorModel.posfix2value(campo2))
+
+    def clear():
+        global operador
+        operador=""
+        expression.set(operador)
+  
+    
+
+
     entrada1 = tk.Entry(self, font=("Arial", 14), textvariable=campo1, width=30, bd=5,insertwidth=3, bg="powder blue",justify="left")
     entrada1.place(x=5, y=4)
     efix = tk.Label(self, text=":Infix", font=("Arial", 14))
@@ -174,7 +189,6 @@ class CalculatorView(Tk):
     epos = tk.Label(self, text=":Postfix", font=("Arial", 14))
     epos.place(x=350, y=45)
     entrada3 = tk.Entry(self, font=("Arial", 14), textvariable=campo3, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left")
-    entrada3.place(x=5, y=500)
     r = tk.Label(self, text=":Resultado", font=("Arial", 14))
     r.place(x=346, y=500)
 
