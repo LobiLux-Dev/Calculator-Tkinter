@@ -28,7 +28,3 @@ class Stack(Generic[T]):
       return None
     
     return self.top.data
-
-  
-  def __str__(self) -> str:
-    return f"[{self.top}]"

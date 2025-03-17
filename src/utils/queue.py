@@ -14,12 +14,10 @@ class Queue(Generic[T]):
     new_node: Node[T] = Node[T](data)
 
     if not self.first:
-      self.first = new_node
-      self.last = new_node
+      self.first = self.last = new_node
       return
     
-    self.last.next = new_node
-    self.last = new_node
+    self.last.next = self.last = new_node
 
 
   def dequeue(self) -> T | None:
