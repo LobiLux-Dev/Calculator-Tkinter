@@ -18,6 +18,10 @@ class CalculatorModel:
 
     for value in expression.split():
       if value in priority:
+        
+        
+        
+        
         while priority.get(stack.peek(), 0) >= priority.get(value, 0):
           posfix.enqueue(stack.pop())
         else:
