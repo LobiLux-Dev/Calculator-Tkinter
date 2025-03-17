@@ -6,189 +6,43 @@ import tkinter as tk
 
 
 class CalculatorView(Tk):
-  def __init__(self):
+  def __init__(self) -> None:
     super().__init__()
 
     self.title("Calculadora")
-    self.geometry("455x550")
 
-    ButtonsFrame(self).grid()
-
-    # #expression = StringVar()
-    # #self.expressionEntry = Entry(self, textvariable=expression)
-    # #self.expressionEntry.grid()
+    self.inputsFrame = InputsFrame(self)
+    self.inputsFrame.pack()
     
-    # buttonsContainer = Frame(self, padding= 8)
-    # buttonsContainer.grid()
-    # '''
-    # widgets = [
-    #   ( 'log' , 'sin' , 'cos' , 'tan' , 'ln'  ),
-    #   ( 'alog', 'asin', 'acos', 'atan', 'aln' ),
-    #   ( '7'   , '8'   , '9'   , '^'   , 'AC'  ),
-    #   ( '4'   , '5'   , '6'   , '*'   , '/'   ),
-    #   ( '1'   , '2'   , '3'   , '+'   , '-'   ),
-    #   ( '0'   , '.'   , '('   , ')'   , '='   ),
-    # ]
-
-    # for i, row in enumerate(widgets):
-    #   for j, value in enumerate(row):
-    #     Button(buttonsContainer, text=value, width=5).grid(row=i, column=j)
-    #     '''
+    ButtonsFrame(self).pack()
 
 
-        
-    #      # conexiones
-    # def click(num):
-    #     global operador
-    #     operador=operador+str(num)
-    #     expression.set(operador)
+class InputsFrame(Frame):
+  def __init__(self, master) -> None:
+    super().__init__(master)
 
-    # def clear():
-    #     global operador
-    #     operador=""
-    #     expression.set(operador)
-        
-    expression= StringVar()
-    self.expressionEntry = Entry(self, textvariable=expression)
-    campo1 = StringVar()
-    campo2 = StringVar()
-    campo3 = StringVar()
-    operador=""
+    self.vars: dict[str, StringVar] = {
+      'infix': StringVar(),
+      'posfix': StringVar(),
+      'value': StringVar()
+    }
+
+    self._create_input_row("Infix: ", self.vars['infix'], 0)
+    self._create_input_row("Postfix: ", self.vars['posfix'], 1)
+    self._create_input_row("Resultado: ", self.vars['value'], 2)
 
 
-
-
-    # widgets = [
-    #   ( "√"  , "EXP"  , "log"   , "ln" , "sin"   ),
-    #   ( "cos"   , "tan"   , "asin"   , "acos"   , "atan"   ),
-    #   ( "sec"   , "csc"   , "cot"   , "("   , ")"   ),
-    #   ( "7"   , "8"   , "9"   , "AC"   , "DEL"   ),
-    #   ( "4"   , "5"   , "6"   , "x"   , "/"   ),
-    #   ( "1"   , "2"   , "3"   , "+"   , "-"   ),
-    #   ( "0"   , '.'   , 'π'   , "%"   , "="   ),
-      
-    # ]
-          
-    # def pos():
-    #   campo2.set(CalculatorModel.infix2posfix)
-      
-    # def valuefin():
-    #   campo3.set(CalculatorModel.posfix2value)
-    
-    # def operacion():
-    #     campo1.set(expression)
-        
-    #     infi = expression.get()
-    #     print(infi)
-    #     # campo2.set(CalculatorModel.infix2posfix(infi))
-    #     # campo3.set(CalculatorModel.posfix2value(campo2))
-
-    # def clear():
-    #     global operador
-    #     operador=""
-    #     expression.set(operador)
-    
-    # comando: dict[str] = {
-    #       "√": "√ ",
-    #       "EXP": "** ",
-    #       "log": "log10( ",
-    #       "ln": "log( ",
-    #       "sin":"sin( ",
-    #       "cos": "cos( ",
-    #       "tan": "tan( ",
-    #       "asin": "asin( ",
-    #       "acos": "acos( ",
-    #       "atan": "atan( ",
-    #       "sec": "1/cos( ",
-    #       "csc": "1/sin( ",
-    #       "cot": "1/tan( ",
-    #       "7": 7 ,
-    #       "8": 8 ,
-    #       "9": 9 ,
-    #       "AC": clear(),
-    #       "DEL": "remove",
-    #       "4": 4 ,
-    #       "5": 5 ,
-    #       "6": 6 ,
-    #       "x": "* ",
-    #       "/": "/ ",
-    #       "1": 1 ,
-    #       "2": 2 ,
-    #       "3": 3 ,
-    #       "+": "+ ",
-    #       "-": "- ",
-    #       "0": 0 ,
-    #       ".": ". ",
-    #       "π": "π ",
-    #       "%": "% ",
-    #       "=": operacion(),
-    #     }
-
-    
-    self.rowconfigure(0, weight=1)
-    self.columnconfigure(0, weight=1)
-    
-    # for i, row in enumerate(widgets):
-    #   for j, value in enumerate(row):
-    #     Button(buttonsContainer, text=value, command=lambda val=value:click(val), width=8).grid(row=i, column=j, ipadx=15, ipady=8)
-        
-
-    # '''
-    # botones = {
-    #   ("√", "√", 1, 85),
-    #   ("EXP", "**", 90, 85),
-    #   ("log", "log10", 179, 85),
-    #   ("ln", "log", 268, 85),
-    #   ("sin", "sin", 357, 85),
-    #   ("cos", "cos", 1, 143),
-    #   ("tan", "tan", 90, 143),
-    #   ("asin", "asin", 179, 143),
-    #   ("acos", "acos", 268, 143),
-    #   ("atan", "atan", 357, 143),
-    #   ("sec", "1/cos", 1, 201),
-    #   ("csc", "1/sin", 90, 201),
-    #   ("cot", "1/tan", 179, 201),
-    #   ("7", 7, 1, 259),
-    #   ("8", 8, 90, 259),
-    #   ("9", 9, 179, 259),
-    #   ("AC", clear, 268, 259), #modificar pq es funcion
-    #   ("DEL", "remove", 357, 259),
-    #   ("4", 4, 1, 317),
-    #   ("5", 5, 90, 317),
-    #   ("6", 6, 179, 317),
-    #   ("X", "*", 268, 317),
-    #   ("/", "/", 357, 317),
-    #   ("1", 1, 1, 375),
-    #   ("2", 2, 90, 375),
-    #   ("3", 3, 179, 375),
-    #   ("+", "+", 268, 375),
-    #   ("-", "-", 357, 375),
-    #   ("0", 0, 1, 433),
-    #   (".", ".", 90, 433),
-    #   ("π", "π", 179, 433),
-    #   ("%", "%", 268, 433),
-    #   ("=", "=", 357, 433)
-    # }
-
-    # def new_button(texto, comando, x, y):
-    #     return tk.Button(self, text=texto, width=anch, height=larg, command=lambda: click(comando)).place(x=x, y=y)
-
-    # for texto, comando, x, y in botones:
-    #     new_button(texto, comando, x, y)'''
-        
-
-    # #conexiones
+  def _create_input_row(self, label_text: str, text_var: StringVar, row: int):
+    Label(self, text=label_text, font=("Arial", 14)).grid(row=row, column=0, pady=2)
+    Entry(self, font=("Arial", 14), textvariable=text_var).grid(row=row, column=1, pady=2)
 
   
-    
+  def update_input(self, input_name: str, value: str) -> None:
+    self.vars[input_name].set(value)
 
 
-    tk.Entry(self, font=("Arial", 14), textvariable=campo1, width=30, bd=5,insertwidth=3, bg="powder blue",justify="left").place(x=5, y=4)
-    tk.Label(self, text=":Infix", font=("Arial", 14)).place(x=350, y=5)
-    tk.Entry(self, font=("Arial", 14), textvariable=campo2, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left").place(x=5, y=45)
-    tk.Label(self, text=":Postfix", font=("Arial", 14)).place(x=350, y=45)
-    tk.Entry(self, font=("Arial", 14), textvariable=campo3, width=30, bd=5,insertwidth=3, bg="powder blue", justify="left").place(x=5, y=500)
-    tk.Label(self, text=":Resultado", font=("Arial", 14)).place(x=346, y=500)
+  def get_input(self, input_name: str) -> str:
+    return self.vars[input_name].get()
 
 
 class ButtonsFrame(Frame):
