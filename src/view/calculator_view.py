@@ -7,15 +7,16 @@ class CalculatorView(Tk):
     self.controller = controller
 
     self.title("Calculadora")
+    self.configure(padx=10, pady=10)
 
     self.inputsFrame = InputsFrame(self)
-    self.inputsFrame.pack()
+    self.inputsFrame.pack(pady=10)
     
     ButtonsFrame(self, controller).pack()
 
 
 class InputsFrame(Frame):
-  def __init__(self, master):
+  def __init__(self, master) -> None:
     super().__init__(master)
 
     self.vars: dict[str, StringVar] = {
@@ -48,13 +49,13 @@ class ButtonsFrame(Frame):
     self.controller = controller
 
     buttons: list[tuple[str, str, str, str, str]] = [
-      ( "sin" , "cos" , "tan"  , "log" , "ln"   ),
-      ( "asin", "acos", "atan" , "EXP" , "10ˣ"  ),
-      ( "sec" , "csc" , "cot"  , "("   , ")"    ),
-      ( "7"   , "8"   , "9"    , "AC"  , "DEL"  ),
-      ( "4"   , "5"   , "6"    , "√"   , "^"    ),
-      ( "1"   , "2"   , "3"    , "x"   , "/"    ),
-      ( "0"   , '.'   , "="    , "+"   , "-"    ),
+      ( "sen" , "cos" , "tan"  , "log" , "ln"  ),
+      ( "asen", "acos", "atan" , "10ˣ" , "e"   ),
+      ( "sec" , "csc" , "cot"  , "("   , ")"   ),
+      ( "7"   , "8"   , "9"    , "AC"  , "DEL" ),
+      ( "4"   , "5"   , "6"    , "x"   , "/"   ),
+      ( "1"   , "2"   , "3"    , "+"   , "-"   ),
+      ( "0"   , "."   , "π"    , "^"   , "="   ),
     ]
 
     for i, row in enumerate(buttons):

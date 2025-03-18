@@ -11,36 +11,36 @@ class CalculatorController:
     set = self.view.inputsFrame.update_input
     get = self.view.inputsFrame.get_input
 
-    set(input_name="posfix", value="")
-    set(input_name="value", value="")
-  
+    set("posfix", "")
+    set("value", "")
 
-    if value.isnumeric() or value in ['.', 'π', '%']:
-      current_infix = get("infix")
-      set(input_name="infix", value=current_infix + value)
-    elif value == "AC":
-      set(input_name="infix", value="")
-    elif value == "DEL":
-      if (val := get('infix').split()):
-        val.pop()
+    match value:
+      case '10ˣ':
+        set("infix", get("infix") + '10 ^ ( ')
+      case 'e':
+        set("infix", get("infix") + 'e ^ ( ')
+      case 'x':
+        set("infix", get("infix") + ' * ')
+      case 'AC':
+        set("infix", "")
+      case 'DEL':
+        if (val := get('infix').split()).pop():
+          if val and val[-1].isalpha():
+            val.pop()
 
-        if val and val[-1].isalpha():
-          val.pop()
-
-        set(input_name='infix', value=" ".join(val) + '')
-    elif value.isalpha() and not value in ['x']:
-      current_infix = get("infix")
-      set(input_name="infix", value=current_infix + ' ' + value + ' ( ')
-    elif value == "=":
-      current_infix = get("infix")
-
-      posfix = self.model.infix2posfix(current_infix)
-      set(input_name="posfix", value=posfix)
-      value = self.model.posfix2value(posfix)
-      set(input_name="value", value=value)
-    else:
-      current_infix = get("infix")
-      set(input_name="infix", value=current_infix + ' ' + value + ' ')
+          set('infix', " ".join(val) + " ")
+      case '=':
+        posfix = self.model.infix2posfix(get("infix"))
+        set("posfix", posfix)
+        value = self.model.posfix2value(posfix)
+        set("value", value)
+      case _ if value.isnumeric() or value in ['.', 'π', '%']:
+        set("infix", get("infix") + value)
+      case _ if value.isalpha():
+        set("infix", get("infix") + value + ' ( ')
+      case _:
+        current_infix = get("infix")
+        set("infix", current_infix + ' ' + value + ' ')
 
 
   def run(self):

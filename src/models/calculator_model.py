@@ -7,14 +7,12 @@ from utils.stack import Stack
 class CalculatorModel:
   def __init__(self) -> None:
     self.functions: dict[str, Callable[[float], float]] = {
-      'alog': lambda x: 10**x,
       'ln': lambda x: math.log(x),
-      'aln': lambda x: math.exp(x),
       'log': lambda x: math.log10(x),
-      'sin': lambda x: math.sin(math.radians(x)),
+      'sen': lambda x: math.sin(math.radians(x)),
       'cos': lambda x: math.cos(math.radians(x)),
       'tan': lambda x: math.tan(math.radians(x)),
-      'asin': lambda x: math.degrees(math.asin(x)),
+      'asen': lambda x: math.degrees(math.asin(x)),
       'acos': lambda x: math.degrees(math.acos(x)),
       'atan': lambda x: math.degrees(math.atan(x)),
     }
@@ -65,7 +63,11 @@ class CalculatorModel:
       stack.push(
         self.functions[value](stack.pop()) if value in self.functions else
         self.operators[value](stack.pop(), stack.pop()) if value in self.operators else
-        float(math.pi if value == 'π' else value)
+        float(
+          math.pi if value == 'π' else
+          math.e if value == 'e' else
+          value
+        )
       )
     
     return int(value) if (value := stack.pop()).is_integer() else value.__round__(2)
